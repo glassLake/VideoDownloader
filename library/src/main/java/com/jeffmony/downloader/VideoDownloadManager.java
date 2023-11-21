@@ -708,6 +708,7 @@ public class VideoDownloadManager {
                 if (outputFile.exists()) {
                     outputFile.delete();
                 }
+                taskItem.setTaskState(VideoTaskState.ERROR);
                 listener.onCallback(taskItem);
             }
 

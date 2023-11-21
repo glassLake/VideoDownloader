@@ -25,7 +25,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    packagingOptions {
+        pickFirst '**/libc++_shared.so'
+        pickFirst '**/META-INF/DEPENDENCIES'
+    }
 }
 
 dependencies {
@@ -35,5 +38,9 @@ dependencies {
     implementation 'com.github.JeffMony:PlayerSDK:2.0.0'
     implementation "com.github.JeffMony:JeffVideoLib:${video_lib_version}"
     implementation project(path: ':library')
+
+    api "com.github.hss01248.utilcodeEnhance:media:1.4.1"
+    api "com.github.hss01248.utilcodeEnhance:download-list:1.4.1"
+    api "com.github.hss01248.utilcodeEnhance:lib-base:1.4.1"
 
 }

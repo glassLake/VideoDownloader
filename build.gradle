@@ -1,7 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+    apply from: 'https://raw.githubusercontent.com/hss01248/flipperUtil/gradle7_5/remote3.gradle?a=7'
+    apply from: 'https://raw.githubusercontent.com/hss01248/flipperUtil/dev/deps/depsLastestChecker.gradle'
+  apply from: 'https://raw.githubusercontent.com/hss01248/flipperUtil/dev/z_config/apk_file_rename.gradle'
     repositories {
         google()
         jcenter()
