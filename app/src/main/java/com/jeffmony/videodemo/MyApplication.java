@@ -21,9 +21,9 @@ public class MyApplication extends Application {
         VideoDownloadConfig config = new VideoDownloadManager.Build(this)
                 .setCacheRoot(file.getAbsolutePath())
                 .setTimeOut(DownloadConstants.READ_TIMEOUT, DownloadConstants.CONN_TIMEOUT)
-                .setConcurrentCount(DownloadConstants.CONCURRENT)
-                .setIgnoreCertErrors(false)
-                .setShouldM3U8Merged(false)
+                .setConcurrentCount(2)
+                .setIgnoreCertErrors(true)
+                .setShouldM3U8Merged(true)
                 .buildConfig();
         VideoDownloadManager.getInstance().initConfig(config);
     }
