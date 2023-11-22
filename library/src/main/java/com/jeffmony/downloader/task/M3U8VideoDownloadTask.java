@@ -14,12 +14,15 @@ import com.jeffmony.downloader.utils.LogUtils;
 import com.jeffmony.downloader.utils.VideoDownloadUtils;
 import com.jeffmony.downloader.utils.VideoStorageUtils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.util.HashMap;
@@ -246,6 +249,7 @@ public class M3U8VideoDownloadTask extends VideoDownloadTask {
         notifyOnTaskFailed(e);
     }
 
+    //todo 大文件必oom
     public void downloadFile(M3U8Seg ts, File file, String videoUrl) throws Exception {
         HttpURLConnection connection = null;
         InputStream inputStream = null;
@@ -308,16 +312,19 @@ public class M3U8VideoDownloadTask extends VideoDownloadTask {
     }
 
     private void saveFile(InputStream inputStream, File file, long contentLength, M3U8Seg ts, String videoUrl) throws Exception {
-        FileOutputStream fos = null;
+        inputStream = new BufferedInputStream(inputStream);
+        OutputStream fos = null;
         long totalLength = 0;
         try {
-            fos = new FileOutputStream(file);
+            fos = new BufferedOutputStream(new FileOutputStream(file));
+            //fos = new FileOutputStream(file);
             int len;
             byte[] buf = new byte[BUFFER_SIZE];
             while ((len = inputStream.read(buf)) != -1) {
                 totalLength += (long)len;
                 fos.write(buf, 0, len);
             }
+            fos.flush();
             if (contentLength > 0 && contentLength == totalLength) {
                 ts.setContentLength(contentLength);
             } else {
