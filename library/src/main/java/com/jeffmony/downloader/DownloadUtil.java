@@ -1,9 +1,11 @@
 package com.jeffmony.downloader;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -13,6 +15,9 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.hss.utils.enhance.foregroundservice.CommonProgressService;
 import com.jeffmony.downloader.VideoDownloadManager;
 import com.jeffmony.downloader.listener.DownloadListener;
@@ -27,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * @Despciption todo
@@ -35,6 +41,42 @@ import java.io.OutputStream;
  * @Version 1.0
  */
 public class DownloadUtil {
+
+
+    public static File getDownloadDir(){
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
+                +"/"+AppUtils.getAppName()+"/video/");
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        return dir;
+    }
+    public static  void requestPermission(){
+        String permission = Manifest.permission.MANAGE_EXTERNAL_STORAGE;
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.R){
+            //Android 11（API 级别 30）
+            permission = Permission.WRITE_EXTERNAL_STORAGE;
+
+            //请注意，在搭载 Android 10（API 级别 29）或更高版本的设备上，
+            // 您的应用可以提供明确定义的媒体集合，例如 MediaStore.Downloads，而无需请求任何存储相关权限
+        }
+        XXPermissions.with(ActivityUtils.getTopActivity())
+                .permission(permission)
+                .request(new OnPermissionCallback() {
+                    @Override
+                    public void onGranted(List<String> permissions, boolean all) {
+
+                        getDownloadDir();
+
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions, boolean never) {
+                        OnPermissionCallback.super.onDenied(permissions, never);
+                        ToastUtils.showLong("需要写存储权限才能创建外部下载文件夹");
+                    }
+                });
+    }
     public static void startDownload(String extTitle,String url){
         // 莫斯科大劫案: https://ydd.yqk88.com/m3u82/share/585157/628185/20231104/110452/1080/index.m3u8?sign=af286d2564ab3a4f23f16bf436d20b2c&t=1700561643
         // 游戏开头视频,4M: http://videoconverter.vivo.com.cn/201706/655_1498479540118.mp4.main.m3u8
@@ -99,12 +141,26 @@ public class DownloadUtil {
                     ///Download/37d6e8f30b6a302f92652c83176b824a/37d6e8f30b6a302f92652c83176b824a_local.m3u8
                 }
                 Log.i("down","onDownloadSuccess1: "+item.getUrl()+"\n"+item.getFilePath());
-                if(file.getName().endsWith(".mp4")){
+
+                /*if(file.getName().endsWith(".mp4")){
                     copyFile0(file,dialog,extTitle,item.getUrl());
                     return;
-                }
+                }*/
+                /*if(file.getAbsolutePath().contains(DownloadUtil.getDownloadDir().getAbsolutePath())){
+                    File newFile = new File(file.getParentFile(),extTitle+"-"+file.getName());
+                    boolean b = file.renameTo(newFile);
+                    LogUtils.i("文件重命名: ",b+" ");
+
+                    dismissDialog0(dialog);
+                    CommonProgressService.updateProgress(100, 100,"文件下载: "+extTitle,
+                            "进度: 100%",98);
+                    ToastUtils.showLong("m3u8文件下载成功\n"+newFile.getAbsolutePath());
+                    return;
+                }*/
+
                 File outFile = new File(file.getParentFile(),file.getName()+".mp4");
                 LogUtils.i("down", "inputPath="+item.getFilePath()+", outputPath="+outFile.getAbsolutePath());
+                File finalFile = file;
                 VideoProcessManager.getInstance().transformM3U8ToMp4(item.getFilePath(), outFile.getAbsolutePath(), new IVideoTransformListener() {
 
                     @SuppressLint("StringFormatInvalid")
@@ -132,8 +188,10 @@ public class DownloadUtil {
                     @Override
                     public void onTransformFailed(int err) {
                         LogUtils.i("down", "onTransformFailed, err="+err);
-                        dismissDialog0(dialog);
+                        //dismissDialog0(dialog);
+                        outFile.delete();
                         ToastUtils.showLong("文件转换成mp4时失败:"+err+"\n"+item.getUrl());
+                        copyFile0(finalFile,dialog,extTitle,item.getUrl());
                     }
                 });
 
@@ -156,7 +214,17 @@ public class DownloadUtil {
     }
 
     private static void copyFile0(File file, ProgressDialog dialog,String extTitle,String url) {
-        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
+        File newFile = new File(file.getParentFile(),extTitle+"-"+file.getName());
+        boolean b = file.renameTo(newFile);
+        LogUtils.i("文件重命名: ",b+" ");
+
+        dismissDialog0(dialog);
+        CommonProgressService.updateProgress(100, 100,"文件下载: "+extTitle,
+                "进度: 100%",98);
+        ToastUtils.showLong("文件下载成功\n"+newFile.getAbsolutePath());
+
+
+        /*ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
             @Override
             public Object doInBackground() throws Throwable {
                 copyFileToDownloadsDir(file,extTitle);
@@ -177,7 +245,7 @@ public class DownloadUtil {
                 dismissDialog0(dialog);
                 ToastUtils.showLong("文件下载失败:"+t.getMessage()+"\n"+url);
             }
-        });
+        });*/
     }
 
     private static void dismissDialog0(ProgressDialog dialog) {

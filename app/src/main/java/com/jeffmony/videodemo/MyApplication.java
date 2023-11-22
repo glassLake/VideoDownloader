@@ -25,7 +25,7 @@ public class MyApplication extends Application {
         }
         ClipBoardReadUtil.regist();
         VideoDownloadConfig config = new VideoDownloadManager.Build(this)
-                .setCacheRoot(file.getAbsolutePath())
+                .setCacheRoot(DownloadUtil.getDownloadDir().getAbsolutePath())
                 .setTimeOut(DownloadConstants.READ_TIMEOUT, DownloadConstants.CONN_TIMEOUT)
                 .setConcurrentCount(1)
                 .setIgnoreCertErrors(true)

@@ -308,6 +308,7 @@ public class M3U8VideoDownloadTask extends VideoDownloadTask {
                 throw e;
             }
         } finally {
+            VideoDownloadManager.getInstance().getmVideoDownloadTaskMap().remove(videoUrl);
             HttpUtils.closeConnection(connection);
             VideoDownloadUtils.close(inputStream);
         }
@@ -338,6 +339,7 @@ public class M3U8VideoDownloadTask extends VideoDownloadTask {
             //OOM:
             //     mVideoItemTaskMap.clear();
             //     mVideoDownloadTaskMap.clear();
+            VideoDownloadManager.getInstance().getmVideoDownloadTaskMap().remove(videoUrl);
             VideoDownloadUtils.close(inputStream);
             VideoDownloadUtils.close(fos);
             if(e instanceof OutOfMemoryError){
