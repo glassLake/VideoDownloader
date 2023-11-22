@@ -100,4 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //2.8M
         //DownloadUtil.startDownload("2.8","https://cf-st.sc-cdn.net/d/1awUye1IRuft6Nr1iIy1o.85.m3u8");
     }
+
+    public void mp4download(View view) {
+        DownloadUtil.startDownload("单个mp4","https://rrsp-1252816746.cos.ap-shanghai.myqcloud.com/0c1f023caa3bbefbe16a5ce564142bbe.mp4");
+    }
 }

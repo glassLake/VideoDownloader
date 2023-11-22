@@ -60,6 +60,15 @@
             android:layout_height="wrap_content" />
         <Button
             android:background="@color/colorPrimaryDark"
+            android:text="单个文件下载mp4"
+            android:onClick="mp4download"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="180dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:background="@color/colorPrimaryDark"
             android:text="开始下载84M"
             android:onClick="startDownload"
             android:textSize="18sp"
