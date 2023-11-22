@@ -26,7 +26,7 @@ public class MyApplication extends Application {
                 .setTimeOut(DownloadConstants.READ_TIMEOUT, DownloadConstants.CONN_TIMEOUT)
                 .setConcurrentCount(1)
                 .setIgnoreCertErrors(true)
-                .setShouldM3U8Merged(true)
+                .setShouldM3U8Merged(false)
                 .buildConfig();
         VideoDownloadManager.getInstance().initConfig(config);
 
@@ -34,7 +34,7 @@ public class MyApplication extends Application {
             @Override
             public void loadUrl(Context context, String url) {
                 if(url.contains(".m3u8") || url.contains(".mp4")){
-                    MainActivity.startDownload("",url);
+                    DownloadUtil.startDownload("",url);
                 }
             }
 

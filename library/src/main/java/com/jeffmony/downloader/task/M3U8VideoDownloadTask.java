@@ -233,6 +233,10 @@ public class M3U8VideoDownloadTask extends VideoDownloadTask {
                 if (!mDownloadFinished) {
                     mDownloadTaskListener.onTaskFinished(size);
                     mDownloadFinished = true;
+                }else {
+                    LogUtils.w("down","has called mDownloadFinished");
+                    mDownloadTaskListener.onTaskFinished(size);
+                    mDownloadFinished = true;
                 }
             }
         }
