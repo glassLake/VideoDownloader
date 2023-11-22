@@ -15,7 +15,7 @@ public class DownloadExceptionUtils {
      */
     private static final int UNKNOWN_ERROR = -1;
     private static final int SOCKET_TIMEOUT_ERROR = 5000; // http://hao.zuida-youku.com/20170704/v3xK5MLu/index.m3u8
-    private static final int FILE_NOT_FOUND_ERROR = 5001; // https://hao.czybjz.com/20171023/GBGFCDHf/index.m3u8
+    private static final int FILE_NOT_FOUND_ERROR = 404; // https://hao.czybjz.com/20171023/GBGFCDHf/index.m3u8
     private static final int UNKNOWN_HOST_ERROR = 5002; // https://cn1.sw92.com/avid5e3b9a3acab6d/index.m3u8
 
     //Custom Exception

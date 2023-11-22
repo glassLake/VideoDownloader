@@ -49,11 +49,39 @@
             android:layout_width="180dp"
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content" />
+        <Button
+            android:background="@color/colorPrimaryDark"
+            android:text="开始下载4M"
+            android:onClick="startDownload4m"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="180dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:background="@color/colorPrimaryDark"
+            android:text="开始下载84M"
+            android:onClick="startDownload"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="180dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content" />
 
         <Button
             android:background="@color/colorPrimaryDark"
-            android:text="开始下载"
-            android:onClick="startDownload"
+            android:text="开始下载2G"
+            android:onClick="startDownload2g"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="180dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:background="@color/colorPrimaryDark"
+            android:text="开始下载404"
+            android:onClick="startDownload404"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:layout_width="180dp"

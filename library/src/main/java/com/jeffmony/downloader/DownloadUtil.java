@@ -1,4 +1,4 @@
-package com.jeffmony.videodemo;
+package com.jeffmony.downloader;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;

@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.hss01248.dokit.IDokitConfig;
 import com.hss01248.dokit.MyDokit;
+import com.jeffmony.downloader.ClipBoardReadUtil;
+import com.jeffmony.downloader.DownloadUtil;
 import com.jeffmony.downloader.common.DownloadConstants;
 import com.jeffmony.downloader.VideoDownloadConfig;
 import com.jeffmony.downloader.VideoDownloadManager;
@@ -21,6 +23,7 @@ public class MyApplication extends Application {
         if (!file.exists()) {
             file.mkdir();
         }
+        ClipBoardReadUtil.regist();
         VideoDownloadConfig config = new VideoDownloadManager.Build(this)
                 .setCacheRoot(file.getAbsolutePath())
                 .setTimeOut(DownloadConstants.READ_TIMEOUT, DownloadConstants.CONN_TIMEOUT)

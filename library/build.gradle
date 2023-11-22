@@ -31,4 +31,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.github.JeffMony:JeffVideoLib:${video_lib_version}"
+
+    api "com.github.hss01248.utilcodeEnhance:media:1.4.2"
+    api "com.github.hss01248.utilcodeEnhance:download-list:1.4.2"
+    api "com.github.hss01248.utilcodeEnhance:lib-base:1.4.2"
+    api "com.github.hss01248.utilcodeEnhance:ext:1.4.2"
 }
