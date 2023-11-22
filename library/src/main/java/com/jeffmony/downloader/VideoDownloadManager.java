@@ -48,6 +48,11 @@ public class VideoDownloadManager {
 
     private VideoDownloadHandler mVideoDownloadHandler;
     private List<IDownloadInfosCallback> mDownloadInfoCallbacks = new CopyOnWriteArrayList<>();
+
+    public Map<String, VideoDownloadTask> getmVideoDownloadTaskMap() {
+        return mVideoDownloadTaskMap;
+    }
+
     private Map<String, VideoDownloadTask> mVideoDownloadTaskMap = new ConcurrentHashMap<>();
     private Map<String, VideoTaskItem> mVideoItemTaskMap = new ConcurrentHashMap<>();
 

@@ -111,7 +111,7 @@ public class VideoDownloadUtils {
         if (closeable != null) {
             try {
                 closeable.close();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 LogUtils.w(DownloadConstants.TAG, "VideoProxyCacheUtils close " + closeable + " failed, exception = " + e);
             }
         }

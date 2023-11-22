@@ -2,7 +2,9 @@ package com.jeffmony.downloader.task;
 
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.jeffmony.downloader.VideoDownloadException;
+import com.jeffmony.downloader.VideoDownloadManager;
 import com.jeffmony.downloader.common.DownloadConstants;
 import com.jeffmony.downloader.m3u8.M3U8;
 import com.jeffmony.downloader.m3u8.M3U8Constants;
@@ -330,7 +332,18 @@ public class M3U8VideoDownloadTask extends VideoDownloadTask {
             } else {
                 ts.setContentLength(totalLength);
             }
-        } catch (IOException e) {
+            //搞完就移除
+            VideoDownloadManager.getInstance().getmVideoDownloadTaskMap().remove(videoUrl);
+        } catch (Throwable e) {
+            //OOM:
+            //     mVideoItemTaskMap.clear();
+            //     mVideoDownloadTaskMap.clear();
+            VideoDownloadUtils.close(inputStream);
+            VideoDownloadUtils.close(fos);
+            if(e instanceof OutOfMemoryError){
+                ToastUtils.showLong("OOM: "+e.getMessage());
+            }
+            com.blankj.utilcode.util.LogUtils.w(file.getAbsolutePath(),videoUrl,e);
             if (file.exists() && ((contentLength > 0 && contentLength == file.length()) || (contentLength == -1 && totalLength == file.length()))) {
                 //这时候也能说明ts已经下载好了
             } else {
