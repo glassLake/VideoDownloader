@@ -23,7 +23,7 @@ public class MyApplication extends Application {
         if (!file.exists()) {
             file.mkdir();
         }
-        ClipBoardReadUtil.regist();
+        //ClipBoardReadUtil.regist();
         VideoDownloadConfig config = new VideoDownloadManager.Build(this)
                 .setCacheRoot(DownloadUtil.getDownloadDir().getAbsolutePath())
                 .setTimeOut(DownloadConstants.READ_TIMEOUT, DownloadConstants.CONN_TIMEOUT)
