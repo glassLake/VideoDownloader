@@ -311,6 +311,7 @@ public class M3U8VideoDownloadTask extends VideoDownloadTask {
             VideoDownloadManager.getInstance().getmVideoDownloadTaskMap().remove(videoUrl);
             HttpUtils.closeConnection(connection);
             VideoDownloadUtils.close(inputStream);
+            System.gc();
         }
     }
 
